@@ -41,10 +41,9 @@ class GildedRose(object):
         else:
             item.quality += 1
 
-            if item.name == self.ticket:
-                if item.sell_in < 11:
-                    item.quality += 1
-
+            if item.name == self.ticket and item.sell_in < 11:
+                item.quality += 1
+                
                 if item.sell_in < 6:
                     item.quality += 1
         return item
@@ -53,6 +52,7 @@ class GildedRose(object):
         for item in self.items:
             if item.name == self.legendary:
                 continue
+
             item = self.basic_quality_logic(item)
             item = self.sell_by_logic(item)
         self.quality_regulator()
