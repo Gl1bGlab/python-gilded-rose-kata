@@ -2,6 +2,8 @@ import io
 import sys
 
 from approvaltests import verify
+
+sys.path.append(sys.path[0] + "/..")
 from texttest_fixture import main
 
 def test_gilded_rose_approvals():
