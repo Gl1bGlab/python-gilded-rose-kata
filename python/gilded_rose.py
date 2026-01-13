@@ -13,43 +13,51 @@ class GildedRose(object):
             self.brie,
         }
 
-    def update_quality(self):
+    def quality_regulator(self):
         for item in self.items:
             if item.name == self.legendary:
                 continue
 
-            if not item.name in self.special_items:
-                item.quality -= 1
-            else:
-                if item.quality < 50:
-                    item.quality += 1
-
-                    if item.name == self.ticket:
-                        if item.sell_in < 11:
-                                item.quality += 1
-
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality += 1
-            
-            if item.name != self.legendary:
-                item.sell_in = item.sell_in - 1
-                
-            if item.sell_in < 0:
-                if item.name == self.brie:
-                    item.quality += 1
-
-                if item.name != self.brie:
-                    if item.name != self.ticket:
-                        item.quality -= 1
-                    else:
-                        item.quality = 0
-            
             if item.quality > 50:
                 item.quality = 50
 
             if item.quality < 0:
                 item.quality = 0
+
+    def sell_by_logic(self, item):
+            item.sell_in -= 1
+            if item.sell_in < 0:
+                if item.name == self.brie:
+                    item.quality += 1
+                elif item.name == self.ticket:
+                    item.quality = 0
+                else:
+                    item.quality -= 1
+            return item
+    
+    def basic_quality_logic(self, item):
+        if not item.name in self.special_items:
+            item.quality -= 1
+        else:
+            item.quality += 1
+
+            if item.name == self.ticket:
+                if item.sell_in < 11:
+                    item.quality += 1
+
+                if item.sell_in < 6:
+                    item.quality += 1
+        return item
+
+    def update_quality(self):
+        for item in self.items:
+            if item.name == self.legendary:
+                continue
+            item = self.basic_quality_logic(item)
+            item = self.sell_by_logic(item)
+        self.quality_regulator()
+            
+
 
 
 class Item:
