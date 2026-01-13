@@ -25,9 +25,9 @@ class GildedRose(object):
                     item.quality += 1
 
                     if item.name == self.ticket:
-                        if item.sell_in < 11 and item.quality < 50:
+                        if item.sell_in < 11:
                                 item.quality += 1
-                                
+
                         if item.sell_in < 6:
                             if item.quality < 50:
                                 item.quality += 1
